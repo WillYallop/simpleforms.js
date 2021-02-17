@@ -79,9 +79,7 @@ myForm.addEventListener( "submit", function(event) {
 });
 ```
 
-This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. 
-
-**IMPORTANT** promoise.data will contain an object for each input. The key for each input will be its id. A response might look like this:
+This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. The promise will look something like this:
 
 ```javascript
 {
@@ -92,6 +90,8 @@ This will return an object as a promise containing the forms data, with error me
     failed: true
 }
 ```
+
+> Keep in mind the key for each input will be its id, and will contain the inputs value.
 
 ### Input Verification Methods
 
