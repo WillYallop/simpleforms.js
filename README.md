@@ -1,6 +1,8 @@
-<p align="center"><img align="center" style="height:150px" src="images/simpleFormsLogo.png"/></p><br/>
+<p align="center"><img align="center" style="height:100px" src="images/simpleFormsLogo.png"/></p><br/>
 
 > Build your next form with confidence using Simpleforms.js: a lightweight, powerful and easy to use form validation and sanitization tool!
+
+Simpleforms.js is a lightweight client side library for validation and sanitising your forms inputs. 
 
 ## Links
 
@@ -17,10 +19,19 @@
 - Toggle password visibility
 - Password strength indicator
 
-## Install
+## Installation and Usage
+
+### Instal via NPM
 
 ```sh
 npm install simpleforms
 ```
 
-## Usage
+## Import the library
+
+```javascript
+import simpleForms from "./simpleforms";
+```
+
+
+

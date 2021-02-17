@@ -80,11 +80,7 @@ export default {
     config: function(config) {
         // Simple function to verify data type
         function checkType(val, type) {
-            if(typeof val === type) {
-                return true;
-            } else {
-                return false;
-            }
+            return typeof val === type ? true : false;
         }
         // Set config value
         config.watchKeyup != undefined ? checkType(config.watchKeyup, "boolean") ? this.watchKeyup = config.watchKeyup : this.error("Type of 'watchKeyup' must be a boolean!") : false;
