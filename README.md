@@ -79,7 +79,9 @@ myForm.addEventListener( "submit", function(event) {
 });
 ```
 
-This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. The promise will look something like this:
+This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. The reject promise will contain the same data as the resolove promise!
+
+**The promise will look something like this:**
 
 ```javascript
 {
@@ -105,3 +107,27 @@ This will return an object as a promise containing the forms data, with error me
 | password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |
 | passwordRepeat_sf | Must match password input. |
 
+### Simpleforms.js Config
+
+Simpleforms.js has a variety of config options you can edit to get the library setup how you like. To apple the config before you initialise the library you will want to add the following:
+
+```javascript
+simpleForms.config({
+    methods: {
+        message_sf: {
+            active: false,
+            max: 500
+        },
+        custom_sf: {
+            active: true,
+            regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/,
+            min: 5,
+            max: 100
+        }
+    },
+    errorClass: "inpError",
+    escapeValues: false,
+    showPasswordBtn: true,
+    showStrengthIndicator: true
+});
+```
