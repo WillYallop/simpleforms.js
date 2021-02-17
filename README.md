@@ -42,9 +42,9 @@ simpleForms.initialise(myForm);
 ```
 ### Client side setup
 
-Depedning on the verification type you want on your form inputs you will want to add one of the following methods as the name of the input. 
+Depedning on the verification you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
 
-Find out more about the method types bellow.
+Find out more about the [method types here](#input-verification-methods).
 
 ```html
 <form id="myForm">
@@ -58,4 +58,13 @@ Find out more about the method types bellow.
 
 ### Input Verification Methods
 
+| Methods           | Defualt Validation                                                       |
+|-------------------|--------------------------------------------------------------------------|
+| email_sf          | `active: true`<br> `min: 5`<br> `max: 100`<br> `regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/` |
+| phoneUk_sf        | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|#)\d{3,4})?$/` |
+| phoneUsa_sf       | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/` |
+| name_sf           | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/` |
+| message_sf        | `active: true`<br> `min: 5`<br> `max: 200`<br> `regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/` |
+| password_sf       | `active: true`<br> `min: 4`<br> `max: 20`<br> `mediumRegex: ^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})`<br> `strongRegex: ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})` |
+| passwordRepeat_sf | `active: true` |
 
