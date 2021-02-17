@@ -60,11 +60,11 @@ Find out more about the [method types here](#input-verification-methods).
 
 | Methods           | Defualt Validation                                                       |
 |-------------------|--------------------------------------------------------------------------|
-| email_sf          | `active: true`<br> `min: 5`<br> `max: 100`<br> `regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/` |
-| phoneUk_sf        | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|#)\d{3,4})?$/` |
-| phoneUsa_sf       | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/` |
-| name_sf           | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/` |
-| message_sf        | `active: true`<br> `min: 5`<br> `max: 200`<br> `regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/` |
-| password_sf       | `active: true`<br> `min: 4`<br> `max: 20`<br> `mediumRegex: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})$/`<br> `strongRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/` |
-| passwordRepeat_sf | `active: true` |
+| email_sf          |  `Min Characters: 5`<br> `Max Characters: 100`<br> Must match email regex. |
+| phoneUk_sf        | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match UK phone numbers regex. |
+| phoneUsa_sf       | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match USA phone numbers regex. |
+| name_sf           | `Min Characters: 2`<br> `Max Characters: 15`<br> Can only include `a-z A-Z`. |
+| message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |
+| password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |
+| passwordRepeat_sf | Must match password input. |
 

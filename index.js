@@ -260,6 +260,7 @@ export default {
                                 passed: true,
                                 toggleErrorClass: false,
                                 hasError: false,
+                                error: false,
                                 strength: "strong"
                             });
                             this.updatePasswordStrenghtClass("strong");
@@ -268,16 +269,27 @@ export default {
                                 passed: true,
                                 toggleErrorClass: false,
                                 hasError: false,
+                                error: false,
                                 strength: "medium"
                             });
                             this.updatePasswordStrenghtClass("medium");
+                        } else {
+                            this.updateInput(index, {
+                                passed: false,
+                                hasError: true,
+                                error: "Failed strength tests!",
+                                toggleErrorClass: true,
+                                strength: "weak"
+                            });
+                            this.updatePasswordStrenghtClass(false);
                         }
                     } else {
                         this.updateInput(index, {
                             passed: false,
                             hasError: true,
                             error: `Incorrect length! Please be inbetween ${inpConfig.min} and ${inpConfig.max}!`,
-                            toggleErrorClass: true
+                            toggleErrorClass: true,
+                            strength: "weak"
                         });
                         this.updatePasswordStrenghtClass(false);
                     }
@@ -285,7 +297,9 @@ export default {
                     this.updateInput(index, {
                         passed: true,
                         hasError: false,
-                        toggleErrorClass: false
+                        error: false,
+                        toggleErrorClass: false,
+                        strength: "strong"
                     });
                     this.updatePasswordStrenghtClass("strong");
                 }
