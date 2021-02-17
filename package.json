@@ -1,5 +1,5 @@
 {
-  "name": "@wy/simpleforms",
+  "name": "simpleforms.js",
   "version": "1.0.0",
   "description": "Simpleforms.js is a lightweight client side library for validation and sanitising your forms inputs.",
   "main": "index.js",
