@@ -149,7 +149,18 @@ simpleForms.config({
     }
 });
 ```
-> Custom validation methods must include a regex as a minimum. The other options will be set to the same values as "custom_sf" by default, unless overwritten.
+
+**Important!**
+You must add the "_sf" to the end of your custom input method name for it to work! Also if your custom method does not specify any values other than the it will default to the following:
+
+```javascript
+        custom_sf: {
+            active: true,
+            regex: undefined,
+            min: 2,
+            max: 100
+        }
+```
 
 #### Here are the default settings for the input validation methods
 
