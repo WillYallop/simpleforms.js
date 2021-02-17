@@ -65,6 +65,6 @@ Find out more about the [method types here](#input-verification-methods).
 | phoneUsa_sf       | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/` |
 | name_sf           | `active: true`<br> `min: 2`<br> `max: 15`<br> `regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/` |
 | message_sf        | `active: true`<br> `min: 5`<br> `max: 200`<br> `regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/` |
-| password_sf       | `active: true`<br> `min: 4`<br> `max: 20`<br> `mediumRegex: ^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})`<br> `strongRegex: ^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})` |
+| password_sf       | `active: true`<br> `min: 4`<br> `max: 20`<br> `mediumRegex: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})$/`<br> `strongRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/` |
 | passwordRepeat_sf | `active: true` |
 
