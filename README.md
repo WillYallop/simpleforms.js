@@ -97,19 +97,41 @@ This will return an object as a promise containing the forms data, with error me
 
 ### Input Verification Methods
 
-| Methods           | Defualt Validation                                                       |
-|-------------------|--------------------------------------------------------------------------|
-| email_sf          |  `Min Characters: 5`<br> `Max Characters: 100`<br> Must match email regex. |
-| phoneUk_sf        | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match UK phone numbers regex. |
-| phoneUsa_sf       | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match USA phone numbers regex. |
-| name_sf           | `Min Characters: 2`<br> `Max Characters: 15`<br> Can only include `a-z A-Z`. |
-| message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |
-| password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |
-| passwordRepeat_sf | Must match password input. |
+| Methods           | Validation                                                       | Config Fields                                                       |
+|-------------------|------------------------------------------------------------------|---------------------------------------------------------------------|
+| email_sf          |  `Min Characters: 5`<br> `Max Characters: 100`<br> Must match email regex. | `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
+| phoneUk_sf        | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match UK phone numbers regex. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
+| phoneUsa_sf       | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match USA phone numbers regex. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
+| name_sf           | `Min Characters: 2`<br> `Max Characters: 15`<br> Can only include `a-z A-Z`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
+| message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
+| password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `mediumRegex (type Object)`<br> `strongRegex (type Object)` |
+| passwordRepeat_sf | Must match password input. | `active (type Boolean)` |
 
 ### Simpleforms.js Config
 
 Simpleforms.js has a variety of config options you can edit to get the library setup how you like. To apply your custom config you should add the following before you run simpleForms.initialise(myForm) function.
+
+```javascript
+simpleForms.config({
+    errorClass: "inpError",
+    escapeValues: false,
+    showPasswordBtn: true,
+    showStrengthIndicator: true
+});
+```
+
+| Config Option          | Type    | Default             | Breakdown                                                                                                       |
+|------------------------|---------|---------------------|-----------------------------------------------------------------------------------------------------------------|
+| errorClass             | String  | "error"             | This is the class that is added to inputs that fail validation.                                                 |
+| watchKeyup             | Boolean | true                | This adds an event listener of "keyup" to each field with a method as the name, to verify the data as you type. |
+| escapeValues           | Boolean | true                | This will escape the values of each input for the promise data.                                                 |
+| showPasswordBtn        | Boolean | false               | This being true enables the logic of toggling the passwords type from password to text.                         |
+| togglePasswordBtnId    | String  | "togglePasswordBtn" | This is the id of the toggle password button.                                                                   |
+| activePasswordBtnClass | String  | "visible"           | This is the class that is added when the password input type is set to text.                                    |
+| showStrengthIndicator  | Boolean | false               | This being true enables the logic to displayling the current passwords strength value.                          |
+| strengthIndicatorId    | String  | "strengthIndicator" | This is the id of the strength indicator element.                                                               |
+
+To edit or add a custom input validation method you can add the following to the config:
 
 ```javascript
 simpleForms.config({
@@ -124,23 +146,8 @@ simpleForms.config({
             min: 5,
             max: 100
         }
-    },
-    errorClass: "inpError",
-    escapeValues: false,
-    showPasswordBtn: true,
-    showStrengthIndicator: true
+    }
 });
 ```
 
-#### Here are the defult values and the breakdown.
-
-| Config Option          | Type    | Default             | Breakdown                                                                                                       |
-|------------------------|---------|---------------------|-----------------------------------------------------------------------------------------------------------------|
-| errorClass             | String  | "error"             | This is the class that is added to inputs that fail validation.                                                 |
-| watchKeyup             | Boolean | true                | This adds an event listener of "keyup" to each field with a method as the name, to verify the data as you type. |
-| escapeValues           | Boolean | true                | This will escape the values of each input for the promise data.                                                 |
-| showPasswordBtn        | Boolean | false               | This being true enables the logic of toggling the passwords type from password to text.                         |
-| togglePasswordBtnId    | String  | "togglePasswordBtn" | This is the id of the toggle password button.                                                                   |
-| activePasswordBtnClass | String  | "visible"           | This is the class that is added when the password input type is set to text.                                    |
-| showStrengthIndicator  | Boolean | false               | This being true enables the logic to displayling the current passwords strength value.                          |
-| strengthIndicatorId    | String  | "strengthIndicator" | This is the id of the strength indicator element.                                                               |
+If the the validation method 
