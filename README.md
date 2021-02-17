@@ -42,19 +42,47 @@ simpleForms.initialise(myForm);
 ```
 ### Client side setup
 
-Depedning on the verification you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
+Depending on the verification you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
 
 Find out more about the [method types here](#input-verification-methods).
 
 ```html
 <form id="myForm">
+    <!-- Name Verification-->
     <label for="firstNameInp">First Name</label>
     <input id="firstNameInp" type="text" name="name_sf">
-
+    <!-- Email Address Verification -->
     <label for="emailInp">Email Address</label>
     <input id="emailInp" type="text" name="email_sf">
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
 </form>
 ```
+
+### Listen to the form
+
+Now that the form is setup, to do the final check on the inputs data you will want to call the verify function. For example:
+
+```javascript
+myForm.addEventListener( "submit", function(event) {
+    event.preventDefault();
+    
+    simpleForms.verify()
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((error) => {
+        console.log("Verification Failed!");
+        console.log(error);
+    });
+
+});
+```
+
+This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. 
+
+**IMPORTANT** promoise.data will contain an object for each input. The key for each input will be its id.
+
 
 ### Input Verification Methods
 
