@@ -210,3 +210,11 @@ methods: {
 ```
 
 You can overwrite any of these by specifying the new values in the config as seen in the above example.
+
+## Future features
+
+Here are some future features that will be coming to Simpleforms.js in the not so distant future.
+
+- Checkbox support (IE. accepting terms and conditions)
+- Textarea word count display
+- Independent verification functions
