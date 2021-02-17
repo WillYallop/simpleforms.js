@@ -97,15 +97,15 @@ This will return an object as a promise containing the forms data, with error me
 
 ### Input Verification Methods
 
-| Methods           | Validation                                                       | Config Fields                                                       |
-|-------------------|------------------------------------------------------------------|---------------------------------------------------------------------|
-| email_sf          |  `Min Characters: 5`<br> `Max Characters: 100`<br> Must match email regex. | `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
-| phoneUk_sf        | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match UK phone numbers regex. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
-| phoneUsa_sf       | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match USA phone numbers regex. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
-| name_sf           | `Min Characters: 2`<br> `Max Characters: 15`<br> Can only include `a-z A-Z`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
-| message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `regex (type Object)` |
-| password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |  `active (type Boolean)`<br> `min (type Number)`<br> `max (type Number)`<br> `mediumRegex (type Object)`<br> `strongRegex (type Object)` |
-| passwordRepeat_sf | Must match password input. | `active (type Boolean)` |
+| Methods           | Validation                                                       |
+|-------------------|------------------------------------------------------------------|
+| email_sf          |  `Min Characters: 5`<br> `Max Characters: 100`<br> Must match email regex. |
+| phoneUk_sf        | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match UK phone numbers regex. |
+| phoneUsa_sf       | `Min Characters: 2`<br> `Max Characters: 15`<br> Must match USA phone numbers regex. |
+| name_sf           | `Min Characters: 2`<br> `Max Characters: 15`<br> Can only include `a-z A-Z`. |
+| message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |
+| password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |
+| passwordRepeat_sf | Must match password input. |
 
 ### Simpleforms.js Config
 
@@ -143,11 +143,59 @@ simpleForms.config({
         custom_sf: {
             active: true,
             regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/,
-            min: 5,
+            min: 2,
             max: 100
         }
     }
 });
 ```
+> Custom validation methods must include a regex as a minimum. The other options will be set to the same values as "custom_sf" by default, unless overwritten.
 
-If the the validation method 
+#### Here are the default settings for the input validation methods
+
+```javascript
+    methods: {
+        email_sf: {
+            active: true,
+            regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            min: 5,
+            max: 100
+        },
+        phoneUk_sf: {
+            active: true,
+            regex: /^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|#)\d{3,4})?$/,
+            min: 2,
+            max: 15
+        },
+        phoneUsa_sf: {
+            active: true,
+            regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/,
+            min: 2,
+            max: 15
+        },
+        name_sf: {
+            active: true,
+            regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/,
+            min: 2,
+            max: 15
+        },
+        message_sf: {
+            active: true,
+            regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/,
+            min: 5,
+            max: 200
+        },
+        password_sf: {
+            active: true,
+            mediumRegex: "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})",
+            strongRegex: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
+            min: 4,
+            max: 20
+        },
+        passwordRepeat_sf: {
+            active: true
+        }
+    },
+```
+
+You can overwrite any of these by specefying the new values in the config like the above example.
