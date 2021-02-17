@@ -109,7 +109,7 @@ This will return an object as a promise containing the forms data, with error me
 
 ### Simpleforms.js Config
 
-Simpleforms.js has a variety of config options you can edit to get the library setup how you like. To apple the config before you initialise the library you will want to add the following:
+Simpleforms.js has a variety of config options you can edit to get the library setup how you like. To apply your custom config you should add the following before you run simpleForms.initialise(myForm) function.
 
 ```javascript
 simpleForms.config({
@@ -131,3 +131,16 @@ simpleForms.config({
     showStrengthIndicator: true
 });
 ```
+
+#### Here are the defult values and the breakdown.
+
+| Config Option          | Type    | Default             | Breakdown                                                                                                       |
+|------------------------|---------|---------------------|-----------------------------------------------------------------------------------------------------------------|
+| errorClass             | String  | "error"             | This is the class that is added to inputs that fail validation.                                                 |
+| watchKeyup             | Boolean | true                | This adds an event listener of "keyup" to each field with a method as the name, to verify the data as you type. |
+| escapeValues           | Boolean | true                | This will escape the values of each input for the promise data.                                                 |
+| showPasswordBtn        | Boolean | false               | This being true enables the logic of toggling the passwords type from password to text.                         |
+| togglePasswordBtnId    | String  | "togglePasswordBtn" | This is the id of the toggle password button.                                                                   |
+| activePasswordBtnClass | String  | "visible"           | This is the class that is added when the password input type is set to text.                                    |
+| showStrengthIndicator  | Boolean | false               | This being true enables the logic to displayling the current passwords strength value.                          |
+| strengthIndicatorId    | String  | "strengthIndicator" | This is the id of the strength indicator element.                                                               |
