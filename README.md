@@ -61,7 +61,7 @@ Find out more about the [method types here](#input-verification-methods).
 
 ### Listen to the form
 
-Now that the form is setup, to do the final check on the inputs data you will want to call the verify function. For example:
+Now that the form is setup, to do the final check on the inputs data you will want to call the verify function.
 
 ```javascript
 myForm.addEventListener( "submit", function(event) {
@@ -81,8 +81,17 @@ myForm.addEventListener( "submit", function(event) {
 
 This will return an object as a promise containing the forms data, with error messages (if they apply), and whether it failed as a whole or not. 
 
-**IMPORTANT** promoise.data will contain an object for each input. The key for each input will be its id.
+**IMPORTANT** promoise.data will contain an object for each input. The key for each input will be its id. A response might look like this:
 
+```javascript
+{
+    data: {
+        { firstNameInp: "John", error: false },
+        { emailInp: "johndoe@gmail", error: "Please enter a valid input!" }
+    },
+    failed: true
+}
+```
 
 ### Input Verification Methods
 
