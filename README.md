@@ -24,13 +24,13 @@ Simpleforms.js is a lightweight client side library for validation and sanitisin
 ### Instal via NPM
 
 ```sh
-npm install simpleforms
+npm install @wy/simpleforms
 ```
 
 ### Import the library
 
 ```javascript
-import simpleForms from "simpleforms";
+import simpleForms from "@wy/simpleforms";
 ```
 
 After importing Simpleforms.js you have to initialise the library by passing it the form element. For example:
