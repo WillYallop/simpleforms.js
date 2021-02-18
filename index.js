@@ -40,6 +40,9 @@ export default class simpleforms {
             },
             passwordRepeat_sf: {
                 active: true
+            },
+            checkbox_sf: {
+                active: true
             }
         };
         this.form = form;
@@ -115,9 +118,10 @@ export default class simpleforms {
                     hasError: false,
                     error: false,
                     passed: false,
-                    methodStrategy: form.elements[i].name === "passwordRepeat_sf" || form.elements[i].name === "password_sf" ? false : true
+                    methodStrategy: form.elements[i].name === "passwordRepeat_sf" || form.elements[i].name === "password_sf" || form.elements[i].name === "checkbox_sf" ? false : true
                 };
                 form.elements[i].name === "password_sf" ? obj.strength = "weak" : false;
+                form.elements[i].name === "checkbox_sf" ? obj.checked = form.elements[i].checked : false;
                 this.inputs.push(obj);
             }
         }
@@ -260,18 +264,45 @@ export default class simpleforms {
                     this.updatePasswordStrenghtClass("strong");
                 }
             }
+            else if (input.methodType === "checkbox_sf") {
+                if(inpConfig.active) { 
+                    console.log(input.checked);
+                    if(input.checked) {
+                        this.updateInput(index, {
+                            passed: true,
+                            hasError: false,
+                            toggleErrorClass: false
+                        });
+                    } else {
+                        this.updateInput(index, {
+                            passed: false,
+                            hasError: true,
+                            error: "Checkbox not ticked!",
+                            toggleErrorClass: true
+                        });
+                    }
+                } else {
+                    this.updateInput(index, {
+                        passed: true,
+                        hasError: false,
+                        toggleErrorClass: false
+                    });
+                }
+            }
         }
     }
     inputKeyupListener(id) {
         let input = document.getElementById(id);
-        // If this is an input the users wants verifying
-        let inputIndex = this.inputs.findIndex( x => x.id === id);
-        if(this.inputs[inputIndex].methodType) {
-            input.addEventListener("keyup", () => {
-                this.inputs[inputIndex].value = input.value; // Set recent value
-                // Verify specific input
-                this.verifyInput(this.inputs[inputIndex], inputIndex);
-            });
+        if(input.name != "checkbox_sf") {
+            // If this is an input the users wants verifying
+            let inputIndex = this.inputs.findIndex( x => x.id === id);
+            if(this.inputs[inputIndex].methodType) {
+                input.addEventListener("keyup", () => {
+                    this.inputs[inputIndex].value = input.value; // Set recent value
+                    // Verify specific input
+                    this.verifyInput(this.inputs[inputIndex], inputIndex);
+                });
+            }
         }
     }
     verify() {
@@ -281,6 +312,8 @@ export default class simpleforms {
             for(var n = 0; n < this.inputs.length; n++) {
                 let input = document.getElementById(this.inputs[n].id);
                 this.inputs[n].value = input.value;
+                this.inputs[n].methodType === "checkbox_sf" ? this.inputs[n].checked = input.checked : false;
+                
                 this.verifyInput(this.inputs[n], n);
             }
             
