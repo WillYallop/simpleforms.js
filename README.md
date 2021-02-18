@@ -239,3 +239,13 @@ Here are some future features that will be coming to Simpleforms.js in the not s
 - Checkbox support (IE. accepting terms and conditions) (✔️ Added)
 - Textarea word count display (✔️ Added)
 - Independent verification functions
+
+## Current Limitations
+
+Keep in mind these limitations when working with Simpleforms.js
+
+> If the list item has tick next to it, this limiation has been resolved!
+
+- You may only have 1 textarea string count per form!
+- You may only have 1 password visibility toggle per form!
+- You may only have 1 strength indicator per form!
