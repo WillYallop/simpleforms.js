@@ -1,99 +1,74 @@
-// This will get imported in main.js
-export default {
-    methods: {
-        email_sf: {
-            active: true,
-            regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-            min: 5,
-            max: 100
-        },
-        phoneUk_sf: {
-            active: true,
-            regex: /^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|#)\d{3,4})?$/,
-            min: 2,
-            max: 15
-        },
-        phoneUsa_sf: {
-            active: true,
-            regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/,
-            min: 2,
-            max: 15
-        },
-        name_sf: {
-            active: true,
-            regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/,
-            min: 2,
-            max: 15
-        },
-        message_sf: {
-            active: true,
-            regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/,
-            min: 5,
-            max: 200
-        },
-        password_sf: {
-            active: true,
-            mediumRegex: "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})",
-            strongRegex: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
-            min: 4,
-            max: 20
-        },
-        passwordRepeat_sf: {
-            active: true
-        }
-    },
-    errorClass: "error",
-    watchKeyup: true,
-    escapeValues: true,
-
-    showPasswordBtn: false,
-    togglePasswordBtnId: "togglePasswordBtn",
-    activePassowrdBtnClass: "visible",
-
-    showStrengthIndicator: false,
-    strengthIndicatorId: "strengthIndicator",
-
-    inputs: [],
-    reset: function() {
-        for(var i = 0; i < this.inputs.length; i++) {
-            // Resets internal data
-            this.updateInput(i, {
-                passed: false,
-                hasError: false,
-                error: false,
-                toggleErrorClass: false
-            });
-            if(this.inputs[i].methodType === "passwordRepeat_sf") {
-                this.updateInput(i, {
-                    strength: false
-                });
-                this.updatePasswordStrenghtClass(false);
+export default class simpleforms {
+    constructor(form, config) {
+        this.methods = {
+            email_sf: {
+                active: true,
+                regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                min: 5,
+                max: 100
+            },
+            phoneUk_sf: {
+                active: true,
+                regex: /^(?:(?:\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)44\)?[\s-]?(?:\(?0\)?[\s-]?)?)|(?:\(?0))(?:(?:\d{5}\)?[\s-]?\d{4,5})|(?:\d{4}\)?[\s-]?(?:\d{5}|\d{3}[\s-]?\d{3}))|(?:\d{3}\)?[\s-]?\d{3}[\s-]?\d{3,4})|(?:\d{2}\)?[\s-]?\d{4}[\s-]?\d{4}))(?:[\s-]?(?:x|ext\.?|#)\d{3,4})?$/,
+                min: 2,
+                max: 15
+            },
+            phoneUsa_sf: {
+                active: true,
+                regex: /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/,
+                min: 2,
+                max: 15
+            },
+            name_sf: {
+                active: true,
+                regex: /^[a-z A-Z]+(?:-[a-z A-Z]+)*$/,
+                min: 2,
+                max: 15
+            },
+            message_sf: {
+                active: true,
+                regex: /^[a-z A-Z!?.,]+(?:-[a-z A-Z!?.,]+)*$/,
+                min: 5,
+                max: 200
+            },
+            password_sf: {
+                active: true,
+                mediumRegex: "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})",
+                strongRegex: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
+                min: 4,
+                max: 20
+            },
+            passwordRepeat_sf: {
+                active: true
             }
-            // Resets input fields
-            let input = document.getElementById(this.inputs[i].id);
-            input.value = "";
-        }
-    },
-    error: function(msg) {
-        console.error(msg);
-    },
-    config: function(config) {
-        // Simple function to verify data type
-        function checkType(val, type) {
-            return typeof val === type ? true : false;
-        }
+        };
+        this.form = form;
+        this.errorClass = "error";
+        this.watchKeyup = true;
+        this.escapeValues = true;
+        this.showPasswordBtn = false;
+        this.togglePasswordBtnId = "togglePasswordBtn";
+        this.activePassowrdBtnClass = "visible";
+        this.showStrengthIndicator = false;
+        this.strengthIndicatorId = "strengthIndicator";
+        this.inputs = [];
+
+        this.config(config);
+        this.initialise(form);
+    }
+    config(config) { // Sets config values if they exists and are correct data types
         // Set config value
-        config.watchKeyup != undefined ? checkType(config.watchKeyup, "boolean") ? this.watchKeyup = config.watchKeyup : this.error("Type of 'watchKeyup' must be a boolean!") : false;
-        config.errorClass != undefined ? checkType(config.errorClass, "string") ? this.errorClass = config.errorClass : this.error("Type of 'errorClass' must be a string!") : false;
-        config.escapeValues != undefined ? checkType(config.escapeValues, "boolean") ? this.escapeValues = config.escapeValues : this.error("Type of 'escapeValues' must be a boolean!") : false;
+        config.watchKeyup != undefined ? this.checkType(config.watchKeyup, "boolean") ? this.watchKeyup = config.watchKeyup : this.error("Type of 'watchKeyup' must be a boolean!") : false;
+        config.errorClass != undefined ? this.checkType(config.errorClass, "string") ? this.errorClass = config.errorClass : this.error("Type of 'errorClass' must be a string!") : false;
+        config.escapeValues != undefined ? this.checkType(config.escapeValues, "boolean") ? this.escapeValues = config.escapeValues : this.error("Type of 'escapeValues' must be a boolean!") : false;
         // For password show btn
-        config.showPasswordBtn != undefined ? checkType(config.showPasswordBtn, "boolean") ? this.showPasswordBtn = config.showPasswordBtn : this.error("Type of 'showPasswordBtn' must be a boolean!") : false;
-        config.togglePasswordBtnId != undefined ? checkType(config.togglePasswordBtnId, "string") ? this.togglePasswordBtnId = config.togglePasswordBtnId : this.error("Type of 'togglePasswordBtnId' must be a string!") : false;
-        config.activePassowrdBtnClass != undefined ? checkType(config.activePassowrdBtnClass, "string") ? this.activePassowrdBtnClass = config.activePassowrdBtnClass : this.error("Type of 'activePassowrdBtnClass' must be a string!") : false;
+        config.showPasswordBtn != undefined ? this.checkType(config.showPasswordBtn, "boolean") ? this.showPasswordBtn = config.showPasswordBtn : this.error("Type of 'showPasswordBtn' must be a boolean!") : false;
+        config.togglePasswordBtnId != undefined ? this.checkType(config.togglePasswordBtnId, "string") ? this.togglePasswordBtnId = config.togglePasswordBtnId : this.error("Type of 'togglePasswordBtnId' must be a string!") : false;
+        config.activePassowrdBtnClass != undefined ? this.checkType(config.activePassowrdBtnClass, "string") ? this.activePassowrdBtnClass = config.activePassowrdBtnClass : this.error("Type of 'activePassowrdBtnClass' must be a string!") : false;
         this.showPasswordBtn ? this.listenToTogglePasswordBtn() : false; 
         // For password strength
-        config.showStrengthIndicator != undefined ? checkType(config.showStrengthIndicator, "boolean") ? this.showStrengthIndicator = config.showStrengthIndicator : this.error("Type of 'showStrengthIndicator' must be a boolean!") : false;
-        config.strengthIndicatorId != undefined ? checkType(config.strengthIndicatorId, "string") ? this.strengthIndicatorId = config.strengthIndicatorId : this.error("Type of 'strengthIndicatorId' must be a string!") : false;
+        config.showStrengthIndicator != undefined ? this.checkType(config.showStrengthIndicator, "boolean") ? this.showStrengthIndicator = config.showStrengthIndicator : this.error("Type of 'showStrengthIndicator' must be a boolean!") : false;
+        config.strengthIndicatorId != undefined ? this.checkType(config.strengthIndicatorId, "string") ? this.strengthIndicatorId = config.strengthIndicatorId : this.error("Type of 'strengthIndicatorId' must be a string!") : false;
 
         // Set config values for methods
         if(config.methods != undefined) {
@@ -115,21 +90,21 @@ export default {
                 // Check objects child values to verify types
                 for (const [key2, value2] of Object.entries(config.methods[key])) {
                     // For max value
-                    key2 === "max" ? checkType(value2, "number") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a number!`) : false;
+                    key2 === "max" ? this.checkType(value2, "number") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a number!`) : false;
                     // For min value
-                    key2 === "min" ? checkType(value2, "number") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a number!`) : false;
+                    key2 === "min" ? this.checkType(value2, "number") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a number!`) : false;
                     // For regex value
-                    key2 === "regex" ? checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
+                    key2 === "regex" ? this.checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
                     // For toggle checks
-                    key2 === "active" ? checkType(value2, "boolean") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a boolean!`) : false;
+                    key2 === "active" ? this.checkType(value2, "boolean") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a boolean!`) : false;
                     // For password regex
-                    key2 === "mediumRegex" ? checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
-                    key2 === "strongRegex" ? checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
+                    key2 === "mediumRegex" ? this.checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
+                    key2 === "strongRegex" ? this.checkType(value2, "object") ? this.methods[key][key2] = value2 : this.error(`Method ${key}, ${key2} type must be a regex/object!`) : false;
                 }
             }
         }
-    },
-    initialise: function(form) {
+    }
+    initialise(form) { // Runs through the form and gets inputs from it
         // Add inputs if the user wants us to verify to it
         for(var i = 0; i < form.elements.length; i++) {
             if(form.elements[i].localName != "button") {
@@ -160,27 +135,8 @@ export default {
                 }
             }
         }
-    },
-    verify: function() {
-        return new Promise((resolve, reject) => {
-
-            // Run specific method type verification to input
-            for(var n = 0; n < this.inputs.length; n++) {
-                let input = document.getElementById(this.inputs[n].id);
-                this.inputs[n].value = input.value;
-                this.verifyInput(this.inputs[n], n);
-            }
-            
-            if(this.returnData().failed) {
-                reject(this.returnData());
-            } else {
-                resolve(this.returnData());
-                this.reset();
-            }
-        });
-    },
-    // Verify single inputs at a time
-    verifyInput: function(input, index) {
+    }
+    verifyInput(input, index) {
         if(input.methodType) { // Check if its a input the user wants to validate
             // Set variables for input
             let inpConfig = this.methods[input.methodType];
@@ -305,8 +261,8 @@ export default {
                 }
             }
         }
-    },
-    inputKeyupListener: function(id) {
+    }
+    inputKeyupListener(id) {
         let input = document.getElementById(id);
         // If this is an input the users wants verifying
         let inputIndex = this.inputs.findIndex( x => x.id === id);
@@ -317,19 +273,77 @@ export default {
                 this.verifyInput(this.inputs[inputIndex], inputIndex);
             });
         }
-    },
-    toggleErrorClass: function(id, bool) {
-        let input = document.getElementById(id);
-        bool ? input.classList.add(this.errorClass) : input.classList.remove(this.errorClass);
-    },
-    updateInput: function(index, options) {
+    }
+    verify() {
+        return new Promise((resolve, reject) => {
+
+            // Run specific method type verification to input
+            for(var n = 0; n < this.inputs.length; n++) {
+                let input = document.getElementById(this.inputs[n].id);
+                this.inputs[n].value = input.value;
+                this.verifyInput(this.inputs[n], n);
+            }
+            
+            if(this.returnData().failed) {
+                reject(this.returnData());
+            } else {
+                resolve(this.returnData());
+                this.reset();
+            }
+        });
+    }
+    reset() {
+        for(var i = 0; i < this.inputs.length; i++) {
+            // Resets internal data
+            this.updateInput(i, {
+                passed: false,
+                hasError: false,
+                error: false,
+                toggleErrorClass: false
+            });
+            if(this.inputs[i].methodType === "passwordRepeat_sf") {
+                this.updateInput(i, {
+                    strength: false
+                });
+                this.updatePasswordStrenghtClass(false);
+            }
+            // Resets input fields
+            let input = document.getElementById(this.inputs[i].id);
+            input.value = "";
+        }
+    }
+
+    // Alt functions
+    updateInput(index, options) {
         options.passed != undefined ? this.inputs[index].passed = options.passed : false;
         options.hasError != undefined ? this.inputs[index].hasError = options.hasError : false;
         options.error != undefined ? this.inputs[index].error = options.error : false;
         this.toggleErrorClass(this.inputs[index].id, options.toggleErrorClass);
         options.strength != undefined ? this.inputs[index].strength = options.strength : false;
-    },
-    returnData: function() {
+    }
+    toggleErrorClass(id, bool) {
+        let input = document.getElementById(id);
+        bool ? input.classList.add(this.errorClass) : input.classList.remove(this.errorClass);
+    }
+    checkType(val, type) { // simple function to return true or false based on data type and paramaters
+        return typeof val === type ? true : false;
+    }
+    listenToTogglePasswordBtn() {
+        let togglePswdBtn = document.getElementById(this.togglePasswordBtnId);
+        togglePswdBtn.addEventListener("click", () => {
+            let passwordInputEle = document.getElementById(this.form["password_sf"].id);
+            passwordInputEle.type === "password" ? passwordInputEle.type = "text" : passwordInputEle.type === "text" ? passwordInputEle.type = "password" : false;
+            passwordInputEle.type === "text" ?  togglePswdBtn.classList.add(this.activePassowrdBtnClass) : togglePswdBtn.classList.remove(this.activePassowrdBtnClass);
+         
+            let passwordRepeatInputEle = document.getElementById(this.form["passwordRepeat_sf"].id);
+            passwordRepeatInputEle.type === "password" ? passwordRepeatInputEle.type = "text" : passwordRepeatInputEle.type === "text" ? passwordRepeatInputEle.type = "password" : false;
+            
+        });
+    }
+    error(msg) {
+        console.error(msg);
+    }
+    returnData() {
         let array = {
             data: [],
             failed: false
@@ -346,22 +360,8 @@ export default {
             }
         }
         return array;
-    },
-    listenToTogglePasswordBtn: function() {
-        let togglePswdBtn = document.getElementById(this.togglePasswordBtnId);
-        togglePswdBtn.addEventListener("click", () => {
-            let passwordInputEle = document.getElementsByName("password_sf");
-            for(var i = 0; i < passwordInputEle.length; i++) {
-                passwordInputEle[i].type === "password" ? passwordInputEle[i].type = "text" : passwordInputEle[i].type === "text" ? passwordInputEle[i].type = "password" : false;
-                passwordInputEle[i].type === "text" ?  togglePswdBtn.classList.add(this.activePassowrdBtnClass) : togglePswdBtn.classList.remove(this.activePassowrdBtnClass);
-            }
-            let passwordRepeatInputEle = document.getElementsByName("passwordRepeat_sf");
-            for(var n = 0; n < passwordRepeatInputEle.length; n++) {
-                passwordRepeatInputEle[n].type === "password" ? passwordRepeatInputEle[n].type = "text" : passwordRepeatInputEle[n].type === "text" ? passwordRepeatInputEle[n].type = "password" : false;
-            }
-        });
-    },
-    updatePasswordStrenghtClass: function(strength) {
+    }
+    updatePasswordStrenghtClass(strength) {
         if(this.showStrengthIndicator) {
             let passwordIndicator = document.getElementById(this.strengthIndicatorId);
             if(strength === "strong") {
@@ -375,5 +375,5 @@ export default {
                 passwordIndicator.classList.remove("medium");
             }
         }
-    },
-};
+    }
+}
