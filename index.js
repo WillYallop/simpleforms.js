@@ -321,7 +321,7 @@ export default class simpleforms {
             }
         }
     }
-    verify() {
+    submit() {
         return new Promise((resolve, reject) => {
 
             // Run specific method type verification to input
@@ -394,7 +394,7 @@ export default class simpleforms {
     }
     returnData() {
         let array = {
-            data: [],
+            inputs: [],
             failed: false
         };
         for(var i = 0; i < this.inputs.length; i++) {
@@ -403,7 +403,7 @@ export default class simpleforms {
                 error: this.inputs[i].hasError ? this.inputs[i].error : false
             };
             this.inputs[i].methodType === "password_sf" ? obj.strength = this.inputs[i].strength : false; // add strength value to password field
-            array.data.push(obj);
+            array.inputs.push(obj);
             if(this.inputs[i].hasError) {
                 array.failed = true;
             }

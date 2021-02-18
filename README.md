@@ -12,12 +12,14 @@ Simpleforms.js is a lightweight client side library for validation and sanitisin
 
 ## Features
 
-- 7 Existing input validation methods
+- Multiple input validation methods
 - Add custom input validation methods
 - Real time validation
-- Extensive config
+- Textarea length indicator
 - Toggle password visibility
 - Password strength indicator
+- Extensive config
+- Checkbox support
 
 ## Installation and Usage
 
@@ -38,8 +40,17 @@ After importing Simpleforms.js you have to initialise the library by passing it 
 ```javascript
 let myForm = document.getElementById("myForm");
 
-simpleForms.initialise(myForm);
+let contactForm = new simpleForms(myForm, {
+    errorClass: "inpError",
+    watchKeyup: true,
+    escapeValues: false,
+    useTogglePassword: true,
+    useStrengthIndicator: true,
+    useMessageCount: true,
+    messageCountErrorClass: "toolong"
+});
 ```
+
 ### Client side setup
 
 Depending on the verification you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
@@ -67,7 +78,7 @@ Now that the form is set up, to do the final check on the inputs data you will w
 myForm.addEventListener( "submit", function(event) {
     event.preventDefault();
     
-    simpleForms.verify()
+    contactForm.submit()
     .then((response) => {
         console.log(response);
     })
@@ -75,7 +86,6 @@ myForm.addEventListener( "submit", function(event) {
         console.log("Verification Failed!");
         console.log(error);
     });
-
 });
 ```
 
@@ -85,9 +95,10 @@ This will return an object as a promise containing the forms data, with error me
 
 ```javascript
 {
-    data: {
+    inputs: {
         { firstNameInp: "John", error: false },
-        { emailInp: "johndoe@gmail", error: "Please enter a valid input!" }
+        { emailInp: "johndoe@gmail", error: "Please enter a valid input!" },
+        { passwordInp: "", error: "Incorrect length! Please be inbetween 4 and 20!", strength: "weak" }
     },
     failed: true
 }
@@ -106,35 +117,42 @@ This will return an object as a promise containing the forms data, with error me
 | message_sf        | `Min Characters: 5`<br> `Max Characters: 200`<br> Can only include `a-z A-Z!?.,`. |
 | password_sf       | `Min Characters: 4`<br> `Max Characters: 20`<br> Medium strength password must include 8 characters one of which being a number or capital. <br> Strong strength passowrd must include 8 characters one being a capital, number and special character `(!@#$%^&*)`. |
 | passwordRepeat_sf | Must match password input. |
+| checkbox_sf | Must be true. |
 
 ### Simpleforms.js Config
 
-Simpleforms.js has a variety of config options you can edit to get the library set up how you like. To apply your custom config you should add the following before you run the simpleForms.initialise(myForm) function.
+Simpleforms.js has a variety of config options you can edit to get the library set up how you like. To apply your custom config you should pass the variables when making a new instance of Simpleforms.js.
 
 ```javascript
-simpleForms.config({
+let contactForm = new simpleForms(myForm, {
     errorClass: "inpError",
+    watchKeyup: true,
     escapeValues: false,
-    showPasswordBtn: true,
-    showStrengthIndicator: true
+    useTogglePassword: true,
+    useStrengthIndicator: true,
+    useMessageCount: true,
+    messageCountErrorClass: "toolong"
 });
 ```
 
-| Config Option          | Type    | Default             | Breakdown                                                                                                       |
-|------------------------|---------|---------------------|-----------------------------------------------------------------------------------------------------------------|
-| errorClass             | String  | "error"             | This is the class that is added to inputs that fail validation.                                                 |
-| watchKeyup             | Boolean | true                | This adds an event listener of "keyup" to each field with a method as the name, to verify the data as you type. |
-| escapeValues           | Boolean | true                | This will escape the values of each input for the promise data.                                                 |
-| showPasswordBtn        | Boolean | false               | This being true enables the logic of toggling the passwords type from password to text.                         |
-| togglePasswordBtnId    | String  | "togglePasswordBtn" | This is the id of the toggle password button.                                                                   |
-| activePasswordBtnClass | String  | "visible"           | This is the class that is added when the password input type is set to text.                                    |
-| showStrengthIndicator  | Boolean | false               | This being true enables the logic to displayling the current passwords strength value.                          |
-| strengthIndicatorId    | String  | "strengthIndicator" | This is the id of the strength indicator element.                                                               |
+| Config Option          | Type    | Default             | Breakdown                                                                                                           |
+|------------------------|---------|---------------------|---------------------------------------------------------------------------------------------------------------------|
+| errorClass             | String  | "error"             | This is the class that is added to inputs that fail validation.                                                     |
+| watchKeyup             | Boolean | true                | This adds an event listener of "keyup" to each field with a method as the name, to verify the data as you type.     |
+| escapeValues           | Boolean | true                | This will escape the values of each input for the promise data.                                                     |
+| useTogglePassword      | Boolean | false               | This being true enables the logic of toggling the passwords type from password to text.                             |
+| togglePasswordBtnId    | String  | "togglePasswordBtn" | This is the id of the toggle password button.                                                                       |
+| activePassowrdBtnClass | String  | "visible"           | This is the class that is added when the password input type is set to text.                                        |
+| useStrengthIndicator   | Boolean | false               | This being true enables the logic to displayling the current passwords strength value.                              |
+| strengthIndicatorId    | String  | "strengthIndicator" | This is the id of the strength indicator element.                                                                   |
+| useMessageCount        | Boolean | false               | This being true enables the logic to update the message value string count.                                         |
+| messageCountId         | String  | "messageCount"      | This is the id of the message count indicator element.                                                              |
+| messageCountErrorClass | String  | "error"             | This is the error class that gets applied to the message count element if the length exceeds the methods max count. |
 
 To edit or add a custom input validation method you can add the following to the config:
 
 ```javascript
-simpleForms.config({
+let contactForm = new simpleForms(myForm, {
     methods: {
         message_sf: {
             active: false,
@@ -205,6 +223,9 @@ methods: {
     },
     passwordRepeat_sf: {
         active: true
+    },
+    checkbox_sf: {
+        active: true
     }
 }
 ```
@@ -215,6 +236,6 @@ You can overwrite any of these by specifying the new values in the config as see
 
 Here are some future features that will be coming to Simpleforms.js in the not so distant future.
 
-- Checkbox support (IE. accepting terms and conditions)
-- Textarea word count display
+- Checkbox support (IE. accepting terms and conditions) (✔️ Added)
+- Textarea word count display (✔️ Added)
 - Independent verification functions
