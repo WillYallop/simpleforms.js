@@ -49,11 +49,14 @@ export default class simpleforms {
         this.errorClass = "error";
         this.watchKeyup = true;
         this.escapeValues = true;
-        this.showPasswordBtn = false;
+        this.useTogglePassword = false;
         this.togglePasswordBtnId = "togglePasswordBtn";
         this.activePassowrdBtnClass = "visible";
-        this.showStrengthIndicator = false;
+        this.useStrengthIndicator = false;
         this.strengthIndicatorId = "strengthIndicator";
+        this.useMessageCount = false;
+        this.messageCountId = "messageCount";
+        this.messageCountErrorClass = "error";
         this.inputs = [];
 
         this.config(config);
@@ -65,12 +68,16 @@ export default class simpleforms {
         config.errorClass != undefined ? this.checkType(config.errorClass, "string") ? this.errorClass = config.errorClass : this.error("Type of 'errorClass' must be a string!") : false;
         config.escapeValues != undefined ? this.checkType(config.escapeValues, "boolean") ? this.escapeValues = config.escapeValues : this.error("Type of 'escapeValues' must be a boolean!") : false;
         // For password show btn
-        config.showPasswordBtn != undefined ? this.checkType(config.showPasswordBtn, "boolean") ? this.showPasswordBtn = config.showPasswordBtn : this.error("Type of 'showPasswordBtn' must be a boolean!") : false;
+        config.useTogglePassword != undefined ? this.checkType(config.useTogglePassword, "boolean") ? this.useTogglePassword = config.useTogglePassword : this.error("Type of 'useTogglePassword' must be a boolean!") : false;
         config.togglePasswordBtnId != undefined ? this.checkType(config.togglePasswordBtnId, "string") ? this.togglePasswordBtnId = config.togglePasswordBtnId : this.error("Type of 'togglePasswordBtnId' must be a string!") : false;
         config.activePassowrdBtnClass != undefined ? this.checkType(config.activePassowrdBtnClass, "string") ? this.activePassowrdBtnClass = config.activePassowrdBtnClass : this.error("Type of 'activePassowrdBtnClass' must be a string!") : false;
-        this.showPasswordBtn ? this.listenToTogglePasswordBtn() : false; 
+        this.useTogglePassword ? this.listenToTogglePasswordBtn() : false; 
+        // For message Count
+        config.useMessageCount != undefined ? this.checkType(config.useMessageCount, "boolean") ? this.useMessageCount = config.useMessageCount : this.error("Type of 'useMessageCount' must be a boolean!") : false;
+        config.messageCountId != undefined ? this.checkType(config.messageCountId, "string") ? this.messageCountId = config.messageCountId : this.error("Type of 'messageCountId' must be a string!") : false;
+        config.messageCountErrorClass != undefined ? this.checkType(config.messageCountErrorClass, "string") ? this.messageCountErrorClass = config.messageCountErrorClass : this.error("Type of 'messageCountErrorClass' must be a string!") : false;
         // For password strength
-        config.showStrengthIndicator != undefined ? this.checkType(config.showStrengthIndicator, "boolean") ? this.showStrengthIndicator = config.showStrengthIndicator : this.error("Type of 'showStrengthIndicator' must be a boolean!") : false;
+        config.useStrengthIndicator != undefined ? this.checkType(config.useStrengthIndicator, "boolean") ? this.useStrengthIndicator = config.useStrengthIndicator : this.error("Type of 'useStrengthIndicator' must be a boolean!") : false;
         config.strengthIndicatorId != undefined ? this.checkType(config.strengthIndicatorId, "string") ? this.strengthIndicatorId = config.strengthIndicatorId : this.error("Type of 'strengthIndicatorId' must be a string!") : false;
 
         // Set config values for methods
@@ -132,10 +139,16 @@ export default class simpleforms {
                 this.inputKeyupListener(this.inputs[n].id);
             }
         } else { // If users has set it to false - we still want to listen to the password field if it exists to update the strength indicator
-            if(this.showStrengthIndicator) {
+            if(this.useStrengthIndicator) {
                 let passwordInp = this.inputs.findIndex( x => x.methodType === "password_sf");
                 if(passwordInp) {
                     this.inputKeyupListener(this.inputs[passwordInp].id);
+                }
+            }
+            if(this.useMessageCount) {
+                let messageInp = this.inputs.findIndex( x => x.methodType === "message_sf");
+                if(messageInp) {
+                    this.inputKeyupListener(this.inputs[messageInp].id);
                 }
             }
         }
@@ -150,7 +163,7 @@ export default class simpleforms {
             if(input.methodStrategy) {
                 // Check value against corressponding method values
                 if(inpConfig.active) {
-                    if(value.length >= inpConfig.min && value.length < inpConfig.max) {
+                    if(value.length >= inpConfig.min && value.length <= inpConfig.max) {
                         if(new RegExp(inpConfig.regex).test(value)) {
                             this.updateInput(index, {
                                 passed: true,
@@ -214,7 +227,7 @@ export default class simpleforms {
             }
             else if (input.methodType === "password_sf") {
                 if(inpConfig.active) {
-                    if(value.length >= inpConfig.min && value.length < inpConfig.max) {
+                    if(value.length >= inpConfig.min && value.length <= inpConfig.max) {
                         if(new RegExp(inpConfig.strongRegex).test(value)) {
                             this.updateInput(index, {
                                 passed: true,
@@ -266,7 +279,6 @@ export default class simpleforms {
             }
             else if (input.methodType === "checkbox_sf") {
                 if(inpConfig.active) { 
-                    console.log(input.checked);
                     if(input.checked) {
                         this.updateInput(index, {
                             passed: true,
@@ -301,6 +313,10 @@ export default class simpleforms {
                     this.inputs[inputIndex].value = input.value; // Set recent value
                     // Verify specific input
                     this.verifyInput(this.inputs[inputIndex], inputIndex);
+                    // For message
+                    if(this.useMessageCount) {
+                        this.inputs[inputIndex].methodType === "message_sf" ? this.updateMessageCount(this.inputs[inputIndex].id) : false
+                    }
                 });
             }
         }
@@ -395,7 +411,7 @@ export default class simpleforms {
         return array;
     }
     updatePasswordStrenghtClass(strength) {
-        if(this.showStrengthIndicator) {
+        if(this.useStrengthIndicator) {
             let passwordIndicator = document.getElementById(this.strengthIndicatorId);
             if(strength === "strong") {
                 passwordIndicator.classList.add("strong");
@@ -408,5 +424,16 @@ export default class simpleforms {
                 passwordIndicator.classList.remove("medium");
             }
         }
+    }
+    updateMessageCount(inputId) {
+        // Get input value legength
+        let messageLength = document.getElementById(inputId).value.length;
+        // Get max characters for that method type
+        let max = this.methods["message_sf"].max;
+        // Update message count div via config id
+        let messageCountEle = document.getElementById(this.messageCountId);
+        messageCountEle.innerText = `${messageLength}/${max}`
+
+        messageLength > max ? messageCountEle.classList.add(this.messageCountErrorClass) : messageCountEle.classList.remove(this.messageCountErrorClass);
     }
 }
