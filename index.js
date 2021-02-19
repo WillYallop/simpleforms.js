@@ -441,7 +441,8 @@ export default class simpleforms {
         let messageCountEle = document.getElementById(this.messageCountId);
         messageCountEle.innerText = `${messageLength}/${max}`
 
-        messageLength < min ? messageCountEle.classList.add(this.messageCountErrorClass) : messageCountEle.classList.remove(this.messageCountErrorClass);
-        messageLength > max ? messageCountEle.classList.add(this.messageCountErrorClass) : messageCountEle.classList.remove(this.messageCountErrorClass);
+        messageLength < min ? messageCountEle.classList.add(this.messageCountErrorClass) : false;
+        messageLength > max ? messageCountEle.classList.add(this.messageCountErrorClass) : false;
+        messageLength <= max && messageLength >= min ? messageCountEle.classList.remove(this.messageCountErrorClass);
     }
 }
