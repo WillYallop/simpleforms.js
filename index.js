@@ -254,7 +254,7 @@ export default class simpleforms {
                                 toggleErrorClass: true,
                                 strength: "weak"
                             });
-                            this.updatePasswordStrenghtClass(false);
+                            this.updatePasswordStrenghtClass("weak");
                         }
                     } else {
                         this.updateInput(index, {
