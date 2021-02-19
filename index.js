@@ -254,7 +254,7 @@ export default class simpleforms {
                                 toggleErrorClass: true,
                                 strength: "weak"
                             });
-                            this.updatePasswordStrenghtClass("failed");
+                            this.updatePasswordStrenghtClass(false);
                         }
                     } else {
                         this.updateInput(index, {
@@ -423,24 +423,15 @@ export default class simpleforms {
                 passwordIndicator.classList.add("strong");
                 passwordIndicator.classList.remove("medium");
                 passwordIndicator.classList.remove("weak");
-                passwordIndicator.classList.remove("failed");
             } else if (strength === "medium") {
                 passwordIndicator.classList.add("medium");
                 passwordIndicator.classList.remove("strong");
                 passwordIndicator.classList.remove("weak");
-                passwordIndicator.classList.remove("failed");
             } else if (strength === "weak") {
                 passwordIndicator.classList.add("weak");
                 passwordIndicator.classList.remove("strong");
                 passwordIndicator.classList.remove("medium");
-                passwordIndicator.classList.remove("failed");
-            } else if (strength === "failed") {
-                passwordIndicator.classList.add("failed");
-                passwordIndicator.classList.remove("strong");
-                passwordIndicator.classList.remove("medium");
-                passwordIndicator.classList.remove("weak");
             } else {
-                passwordIndicator.classList.remove("failed");
                 passwordIndicator.classList.remove("strong");
                 passwordIndicator.classList.remove("medium");
                 passwordIndicator.classList.remove("weak");
