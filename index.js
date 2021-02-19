@@ -360,6 +360,12 @@ export default class simpleforms {
             let input = document.getElementById(this.inputs[i].id);
             input.value = "";
         }
+
+        if(this.useMessageCount) {
+            let messageCountEle = document.getElementById(this.messageCountId);
+            messageCountEle.classList.remove(this.messageCountErrorClass);
+            messageCountEle.innerText = `0`;
+        }
     }
 
     // Alt functions
@@ -430,10 +436,12 @@ export default class simpleforms {
         let messageLength = document.getElementById(inputId).value.length;
         // Get max characters for that method type
         let max = this.methods["message_sf"].max;
+        let min = this.methods["message_sf"].min;
         // Update message count div via config id
         let messageCountEle = document.getElementById(this.messageCountId);
         messageCountEle.innerText = `${messageLength}/${max}`
 
+        messageLength < min ? messageCountEle.classList.add(this.messageCountErrorClass) : messageCountEle.classList.remove(this.messageCountErrorClass);
         messageLength > max ? messageCountEle.classList.add(this.messageCountErrorClass) : messageCountEle.classList.remove(this.messageCountErrorClass);
     }
 }
