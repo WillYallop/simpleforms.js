@@ -443,6 +443,6 @@ export default class simpleforms {
 
         messageLength < min ? messageCountEle.classList.add(this.messageCountErrorClass) : false;
         messageLength > max ? messageCountEle.classList.add(this.messageCountErrorClass) : false;
-        messageLength <= max && messageLength >= min ? messageCountEle.classList.remove(this.messageCountErrorClass);
+        messageLength <= max && messageLength >= min ? messageCountEle.classList.remove(this.messageCountErrorClass) : false;
     }
 }
