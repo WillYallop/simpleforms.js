@@ -53,16 +53,16 @@ let contactForm = new simpleForms(myForm, {
 
 ### Client side setup
 
-Depending on the verification you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
+Depending on the validation you want on your form inputs you will want to add one of the corresponding methods as the name of the input. 
 
-Find out more about the [method types here](#input-verification-methods).
+Find out more about the [method types here](#input-validation-methods).
 
 ```html
 <form id="myForm">
-    <!-- Name Verification-->
+    <!-- Name Validation-->
     <label for="firstNameInp">First Name</label>
     <input id="firstNameInp" type="text" name="name_sf">
-    <!-- Email Address Verification -->
+    <!-- Email Address Validation -->
     <label for="emailInp">Email Address</label>
     <input id="emailInp" type="text" name="email_sf">
     <!-- Submit Button -->
@@ -106,7 +106,7 @@ This will return an object as a promise containing the forms data, with error me
 
 > Keep in mind the key for each input will be its ID, and will contain the inputs value.
 
-### Input Verification Methods
+### Input Validation Methods
 
 | Methods           | Validation                                                       |
 |-------------------|------------------------------------------------------------------|
@@ -238,7 +238,7 @@ Here are some future features that will be coming to Simpleforms.js in the not s
 
 - Checkbox support (IE. accepting terms and conditions) (✔️ Added)
 - Textarea word count display (✔️ Added)
-- Independent verification functions
+- Independent validation functions
 
 ## Current Limitations
 

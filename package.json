@@ -1,6 +1,6 @@
 {
   "name": "simpleforms.js",
-  "version": "2.5.3",
+  "version": "2.6.4",
   "description": "Simpleforms.js is a lightweight client side library for validation and sanitising your forms inputs.",
   "main": "index.js",
   "scripts": {

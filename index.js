@@ -366,6 +366,7 @@ export default class simpleforms {
             messageCountEle.classList.remove(this.messageCountErrorClass);
             messageCountEle.innerText = `0`;
         }
+        this.updatePasswordStrenghtClass(false);
     }
 
     // Alt functions
@@ -390,8 +391,10 @@ export default class simpleforms {
             passwordInputEle.type === "password" ? passwordInputEle.type = "text" : passwordInputEle.type === "text" ? passwordInputEle.type = "password" : false;
             passwordInputEle.type === "text" ?  togglePswdBtn.classList.add(this.activePassowrdBtnClass) : togglePswdBtn.classList.remove(this.activePassowrdBtnClass);
          
-            let passwordRepeatInputEle = document.getElementById(this.form["passwordRepeat_sf"].id);
-            passwordRepeatInputEle.type === "password" ? passwordRepeatInputEle.type = "text" : passwordRepeatInputEle.type === "text" ? passwordRepeatInputEle.type = "password" : false;
+            if(this.form["passwordRepeat_sf"]) {
+                let passwordRepeatInputEle = document.getElementById(this.form["passwordRepeat_sf"].id);
+                passwordRepeatInputEle.type === "password" ? passwordRepeatInputEle.type = "text" : passwordRepeatInputEle.type === "text" ? passwordRepeatInputEle.type = "password" : false;
+            }
             
         });
     }
